@@ -1,0 +1,82 @@
+//- player-info.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.row
+    div.col-4
+      div.card
+        //- TODO: Modify the pug code below to conditionally set the image_src
+        - let image_src = '../../resources/img/helmet.jpg'
+        -if (result_2)
+          for item in result_2
+            img.card-img-top#player_img(src= "../"+item.img_src, alt="Football Player")
+        -else 
+          img.card-img-top#player_img(src= image_src, alt="Football Player")
+        div.card-body.mx-auto
+          form.form(action="/player_info/select_player", method="get")
+            select.custom-select(name="player_choice", onchange="this.form.submit()")
+              option(selected) Select Player
+                //- TODO: Populate the select with player options. Set the value to the player's id and display the player's name.
+                -if (result_1)
+                  for item in result_1
+                    option(value = item.id)=item.name
+                
+    div.col-8
+      div.table-responsive
+        table.table
+          //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
+          form(action="/player_info/select_player", method="get")
+          - if(data)
+            for item in data
+              if(item.name)
+                button.btn.btn-block(type="submit", name="player_selection")=item.name
+              else 
+                button.btn.btn-block(type="submit", name="player_selection")=item.hex_value
+          -if (result_2)
+            for item in result_2
+              tr
+                th Year
+
+                td=item.year
+              tr
+                th Major
+                td=item.major
+                if(result_3)
+                    for item2 in result_3
+                      tr
+                        th Games Played
+                        td=item2.games_played
+                      tr
+                        td="Passing Yards: "+item.passing_yards
+                
+                        td="Avg. Passing Yards: "+(item.passing_yards/item2.games_played)
+                      tr
+                        td="Rushing Yards: "+item.rushing_yards 
+                        td="Avg. Rushing Yards: "+(item.rushing_yards/item2.games_played)
+                      tr
+                        td="Receiving Yards: "+item.receiving_yards
+                        td="Avg. Receiving Yards: "+ (item.receiving_yards/item2.games_played)
+          - else 
+            tr
+              th Year
+
+              td ?
+            tr
+              th Major
+              td ?
+            tr
+              th Games Played
+              td ?
+            tr
+              td Passing Yards:
+              td Avg. Passing Yards:
+            tr
+              td Rushing Yards:  
+              td Avg. Rushing Yards:
+            tr
+              td Receiving Yards:
+              td Avg. Receiving Yards:
+
+include ../partials/footer.pug

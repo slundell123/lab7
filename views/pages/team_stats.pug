@@ -1,0 +1,52 @@
+//- team_stats.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.jumbotron
+    h1.display-4 Fall 2018 Stats
+    p.lead CU Football Statistics for the 2018 Football Season!
+
+  table.table.table-bordered#stats_table
+    tr
+      th.align-bottom(rowspan="2") Game Date
+      th.align-bottom(rowspan="2") Opposing Team Name
+      th.text-center(colspan="2") Score
+      th.align-bottom(rowspan="2") Winner
+    tr
+      th Home Score
+      th Opp. Score
+    //- TODO: Iterate over the football_game table data and display the date, name, home score, and visitor score for each row. Determine the winner and display the winner's name in the last column
+    console.log(result_1)
+    -if (result_1)
+      for item in result_1
+        if(item.home_score)
+          tr
+          td.align-bottom(rowspan="2")=item.game_date
+          td.align-bottom(rowspan="2")=item.visitor_name
+          td.text-center(colspan="1")=item.home_score
+          td.text-center(colspan="1")=item.visitor_score
+          if(item.visitor_score>item.home_score)
+            td.align-bottom(rowspan="2")= item.visitor_name
+          else 
+            td.align-bottom(rowspan="2")= "CU Boulder"
+          tr
+          //button.btn.btn-block(type="submit", name="data", value=item.hex_value)=item.home_score
+  br
+
+  table.table.text-center
+    tr
+      th Wins
+      th Losses
+    tr
+    -if (result_2)
+      for item in result_2
+        td.td.align-bottom=item.wins 
+    -if (result_3)
+      for item in result_3
+        td.td.align-bottom=item.wins
+      //- TODO: Display the total number of wins here. This value should come from your server-side db query.
+      //- TODO: Display the total number of losses here. This value should come from your server-side db query.
+
+include ../partials/footer.pug
